@@ -6,36 +6,17 @@ import ProjectGrid from "./components/ProjectGrid";
 import LeafDecorations from "./components/LeafDecorations";
 
 const projects = [
-  { title: "E-Commerce Platform", image: "/project1.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Brand Identity Design", image: "/project2.png", tags: ["Creative"], type: "large" as const },
-  { title: "Mobile App UX", image: "/project3.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "Web Dashboard", image: "/project4.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Logo Collection", image: "/project5.png", tags: ["Creative"], type: "regular" as const },
-  { title: "User Research Study", image: "/project6.png", tags: ["UX/UI Designer"], type: "large" as const },
-  { title: "API Integration", image: "/project7.png", tags: ["Developer"], type: "regular" as const },
-  { title: "React Component Library", image: "/project1.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Full-Stack Application", image: "/project2.png", tags: ["Developer"], type: "large" as const },
-  { title: "Illustration Series", image: "/project3.png", tags: ["Creative"], type: "regular" as const },
-  { title: "Design System", image: "/project4.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "Database Optimization", image: "/project5.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Photography Portfolio", image: "/project6.png", tags: ["Creative"], type: "large" as const },
-  { title: "User Interface Design", image: "/project7.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "Cloud Infrastructure", image: "/project1.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Typography Project", image: "/project2.png", tags: ["Creative"], type: "regular" as const },
-  { title: "Wireframe Toolkit", image: "/project3.png", tags: ["UX/UI Designer"], type: "large" as const },
-  { title: "Microservices API", image: "/project4.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Print Design Collection", image: "/project5.png", tags: ["Creative"], type: "regular" as const },
-  { title: "User Journey Mapping", image: "/project6.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "Real-time Chat App", image: "/project7.png", tags: ["Developer"], type: "large" as const },
-  { title: "Motion Graphics", image: "/project1.png", tags: ["Creative"], type: "regular" as const },
-  { title: "Prototype Testing", image: "/project2.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "Machine Learning Model", image: "/project3.png", tags: ["Developer"], type: "regular" as const },
-  { title: "Brand Guidelines", image: "/project4.png", tags: ["Creative"], type: "large" as const },
-  { title: "Accessibility Audit", image: "/project5.png", tags: ["UX/UI Designer"], type: "regular" as const },
-  { title: "DevOps Pipeline", image: "/project6.png", tags: ["Developer"], type: "regular" as const },
-  { title: "3D Visualization", image: "/project7.png", tags: ["Creative"], type: "regular" as const },
-  { title: "Usability Testing", image: "/project1.png", tags: ["UX/UI Designer"], type: "large" as const },
-  { title: "Blockchain Integration", image: "/project2.png", tags: ["Developer"], type: "regular" as const }
+  { title: "Avivemos Lumo", image: "/gd-project-avivemoslumo.png", tags: ["Developer"], type: "regular" as const },
+  { title: "Brochure Design", image: "/gd-project-brochure.png", tags: ["Creative"], type: "large" as const },
+  { title: "Espriddle", image: "/gd-project-espriddle.png", tags: ["UX/UI Designer"], type: "regular" as const },
+  { title: "Forever Open", image: "/gd-project-foreveropen.png", tags: ["Developer"], type: "regular" as const },
+  { title: "Hineni", image: "/gd-project-hineni.png", tags: ["Creative"], type: "regular" as const },
+  { title: "KidFit", image: "/gd-project-kidfit.png", tags: ["UX/UI Designer"], type: "large" as const },
+  { title: "LavaLips", image: "/gd-project-lavalips.png", tags: ["Developer"], type: "regular" as const },
+  { title: "Lines of Order", image: "/gd-project-linesoforder.png", tags: ["Developer"], type: "regular" as const },
+  { title: "Living Shorelines", image: "/gd-project-livingshorelines.png", tags: ["Creative"], type: "large" as const },
+  { title: "Step by Step", image: "/gd-project-stepbystep.png", tags: ["UX/UI Designer"], type: "regular" as const },
+  { title: "Vintage Collection", image: "/gd-project-vintage.png", tags: ["Creative"], type: "regular" as const }
 ];
 
 export default function Home() {

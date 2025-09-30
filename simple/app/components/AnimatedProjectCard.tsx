@@ -72,7 +72,7 @@ export default function AnimatedProjectCard({ title, image, tags, type, overlayC
 
   return (
     <div className="group relative" ref={cardRef}>
-      <div className={`${type === 'large' ? 'aspect-3/2 md:aspect-3/2' : 'aspect-3/4 md:aspect-4/3'} relative overflow-hidden rounded-4xl`}>
+      <div className="aspect-4/3 relative overflow-hidden rounded-4xl">
         <img
           src={image}
           alt={title}

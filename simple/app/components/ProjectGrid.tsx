@@ -143,7 +143,7 @@ export default function ProjectGrid({ projects, selectedTag, showAllProjects }: 
                 <div 
                   key={`${columnIndex}-${projectIndex}`} 
                   style={style}
-                  className={`${project.type === 'large' ? 'md:row-span-2' : ''}`}
+                  className=""
                 >
                   <AnimatedProjectCard
                     title={project.title}
