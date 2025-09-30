@@ -6,7 +6,8 @@
   --color-orange: #FF8701;
   --color-purple: #5401C0;
   --bg-color: #FFF4EB;
-  --text-color: #1f2937;
+  --bg-color-darker: #f4e9e0;
+  --text-color: #121212;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,51 +26,6 @@
   font-style: normal;
 }
 
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-@keyframes smoothMove {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.animate-smoothMove {
-  animation: smoothMove 1s ease-in-out;
-}
-
-@keyframes slideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.animate-slideDown {
-  animation: slideDown 0.3s ease-out forwards;
-}
 
 /* Brand Colors */
 .bg-brand-primary-green {
@@ -129,10 +85,9 @@ html {
 
 body {
   font-family: system-ui, sans-serif;
-  background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease;
   /* Prevent scroll chaining and improve performance */
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;

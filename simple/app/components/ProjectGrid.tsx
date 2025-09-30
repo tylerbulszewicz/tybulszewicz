@@ -27,6 +27,15 @@ export default function ProjectGrid({ projects, selectedTag, showAllProjects }: 
     : selectedTag 
       ? projects.filter(project => project.tags.includes(selectedTag))
       : projects;
+      
+  // Debug logging
+  console.log('ProjectGrid Debug:', {
+    showAllProjects,
+    selectedTag,
+    totalProjects: projects.length,
+    filteredProjects: filteredProjects.length,
+    filteredProjectTitles: filteredProjects.map(p => p.title)
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,29 +73,80 @@ export default function ProjectGrid({ projects, selectedTag, showAllProjects }: 
     };
   }, []);
 
-  // Distribute projects evenly across columns with height consideration
+  // Distribute projects with middle column having 2 more than left/right columns
   const distributeProjects = (projects: Project[]) => {
+    // Determine number of columns based on screen size
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    if (isMobile) {
+      // Mobile: 2 columns with equal distribution
+      const numColumns = 2;
+      const columns: Project[][] = Array.from({ length: numColumns }, () => []);
+      
+      projects.forEach((project, index) => {
+        const columnIndex = index % numColumns;
+        columns[columnIndex].push(project);
+      });
+      
+      return columns;
+    }
+    
+    // Desktop: 3 columns with middle column having 2 more projects
     const numColumns = 3;
     const columns: Project[][] = Array.from({ length: numColumns }, () => []);
-    const columnHeights: number[] = Array(numColumns).fill(0);
     
-    projects.forEach((project) => {
-      // Calculate height weight (large cards count as 2, regular as 1)
-      const heightWeight = project.type === 'large' ? 2 : 1;
-      
-      // Find the column with the least height
-      const shortestColumnIndex = columnHeights.reduce((shortest, height, i) => 
-        height < columnHeights[shortest] ? i : shortest, 0
-      );
-      
-      columns[shortestColumnIndex].push(project);
-      columnHeights[shortestColumnIndex] += heightWeight;
-    });
+    if (projects.length === 0) {
+      return columns;
+    }
+    
+    // Calculate how many projects each column should have
+    const totalProjects = projects.length;
+    const baseProjectsPerColumn = Math.floor((totalProjects - 2) / 3); // Subtract 2 for middle column bonus
+    const middleColumnCount = baseProjectsPerColumn + 2;
+    const sideColumnCount = baseProjectsPerColumn;
+    
+    // Distribute projects
+    let projectIndex = 0;
+    
+    // Left column
+    for (let i = 0; i < sideColumnCount && projectIndex < projects.length; i++) {
+      columns[0].push(projects[projectIndex]);
+      projectIndex++;
+    }
+    
+    // Middle column
+    for (let i = 0; i < middleColumnCount && projectIndex < projects.length; i++) {
+      columns[1].push(projects[projectIndex]);
+      projectIndex++;
+    }
+    
+    // Right column
+    for (let i = 0; i < sideColumnCount && projectIndex < projects.length; i++) {
+      columns[2].push(projects[projectIndex]);
+      projectIndex++;
+    }
+    
+    // Handle remaining projects by distributing them evenly
+    while (projectIndex < projects.length) {
+      const columnIndex = (projectIndex - sideColumnCount - middleColumnCount) % 3;
+      columns[columnIndex].push(projects[projectIndex]);
+      projectIndex++;
+    }
     
     return columns;
   };
 
   const distributedColumns = distributeProjects(filteredProjects);
+  
+  // Debug column distribution
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  console.log('Column Distribution:', {
+    left: distributedColumns[0]?.length || 0,
+    middle: isMobile ? 'N/A' : (distributedColumns[1]?.length || 0),
+    right: distributedColumns[isMobile ? 1 : 2]?.length || 0,
+    total: filteredProjects.length,
+    layout: isMobile ? '2-column mobile' : '3-column desktop'
+  });
 
   // Brand colors for overlays based on selected role
   const getBrandColors = (selectedTag?: string) => {
@@ -109,7 +169,7 @@ export default function ProjectGrid({ projects, selectedTag, showAllProjects }: 
     <div className="w-full max-w-full mx-auto px-4 relative z-50 scroll-container" data-projects-section>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-full relative z-50">
         {distributedColumns.map((column, columnIndex) => (
-          <div key={columnIndex} className={`flex flex-col gap-6 project-column ${columnIndex === 2 ? 'hidden md:flex' : ''}`}>
+          <div key={columnIndex} className="flex flex-col gap-6 project-column">
             {column.map((project, projectIndex) => {
               // Calculate upward movement based on scroll position
               // Reduced multiplier for smoother mobile experience
@@ -119,21 +179,25 @@ export default function ProjectGrid({ projects, selectedTag, showAllProjects }: 
               // Mobile-specific adjustments - less aggressive transforms
               const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
               const baseOffset = isMobile ? -64 : -128; // Smaller offset on mobile
-              const movementMultiplier = isMobile ? 0.8 : 1.2; // Less movement on mobile
+              const movementMultiplier = isMobile ? 1.8 : 2.8; // Less movement on mobile
               
-              // Apply different vertical positioning for left and right columns
-              const style = columnIndex === 0 ? { 
-                           transform: `translate3d(0, ${baseOffset/2 - upwardMovement * 0.8}px, 0)`,
-                           willChange: 'transform'
-                         } : // Left column - shift up and continue moving up with scroll
-                         columnIndex === 2 ? { 
-                           transform: `translate3d(0, ${baseOffset/2 - upwardMovement * 0.8}px, 0)`,
-                           willChange: 'transform'
-                         } : // Right column - shift up and continue moving up with scroll
-                         {
-                          transform: `translate3d(0, ${baseOffset - upwardMovement * movementMultiplier}px, 0)`,
-                          willChange: 'transform'
-                         }; // Middle column - smaller shift
+              const style = isMobile ? {
+                // Mobile: 2 columns, alternating transforms
+                transform: `translate3d(0, ${columnIndex === 0 ? baseOffset/3 : baseOffset/2 - upwardMovement * 0.6}px, 0)`,
+                willChange: 'transform'
+              } : columnIndex === 0 ? { 
+                // Desktop: Left column
+                transform: `translate3d(0, ${baseOffset/2 - upwardMovement * 0.8}px, 0)`,
+                willChange: 'transform'
+              } : columnIndex === 2 ? { 
+                // Desktop: Right column
+                transform: `translate3d(0, ${baseOffset/2 - upwardMovement * 0.8}px, 0)`,
+                willChange: 'transform'
+              } : {
+                // Desktop: Middle column
+                transform: `translate3d(0, ${baseOffset - upwardMovement * movementMultiplier}px, 0)`,
+                willChange: 'transform'
+              };
               
               // Get color for this project based on column and project index
               const colorIndex = (columnIndex + projectIndex) % brandColors.length;

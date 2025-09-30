@@ -17,7 +17,6 @@ export default function LeafDecorations({ selectedRole }: LeafDecorationsProps) 
       case 'UX/UI Designer':
         return 'orange';
       case 'All Projects':
-        return 'black'; // Black for light mode, will be overridden for dark mode
       default:
         return 'black';
     }
@@ -25,9 +24,19 @@ export default function LeafDecorations({ selectedRole }: LeafDecorationsProps) 
 
   const leafColor = getLeafColor(selectedRole);
 
+  // Helper function to get the correct image variant
+  const getImageVariant = (color: string, isDark: boolean) => {
+    if (color === 'black') {
+      // All Projects: keep original logic (black in light mode, white in dark mode)
+      return isDark ? 'white' : 'black';
+    }
+    // Other colors: flipped logic (dark variant in light mode, light variant in dark mode)
+    return isDark ? `${color}-light` : `${color}-dark`;
+  };
+
   // Common translations for leaves
-  const leftTranslations = "w-128 h-screen -translate-x-1/3 translate-y-1/3 md:translate-y-48 opacity-90";
-  const rightTranslations = "w-128 h-screen translate-x-1/3 -translate-y-1/2 md:-translate-y-48 opacity-90";
+  const leftTranslations = "w-128 h-screen -translate-x-1/3 translate-y-1/3 md:translate-y-48";
+  const rightTranslations = "w-128 h-screen translate-x-1/3 -translate-y-1/2 md:-translate-y-48";
 
   const LeafImage = ({ side, variant, className }: { side: 'left' | 'right', variant: string, className: string }) => (
     <Image 
@@ -45,68 +54,30 @@ export default function LeafDecorations({ selectedRole }: LeafDecorationsProps) 
     <>
       {/* Left side leaf - covers entire screen */}
       <div className="absolute left-0 top-0 z-0 pointer-events-none overflow-hidden">
-        {selectedRole !== 'All Projects' && (
-          <>
-            <LeafImage 
-              side="left"
-              variant={`${leafColor}-dark`}
-              className={`${leftTranslations} dark:hidden`}
-            />
-            <LeafImage 
-              side="left"
-              variant={`${leafColor}-light`}
-              className={`${leftTranslations} hidden dark:block`}
-            />
-          </>
-        )}
-        
-        {selectedRole === 'All Projects' && (
-          <>
-            <LeafImage 
-              side="left"
-              variant="black"
-              className={`${leftTranslations} dark:hidden`}
-            />
-            <LeafImage 
-              side="left"
-              variant="white"
-              className={`${leftTranslations} hidden dark:block`}
-            />
-          </>
-        )}
+        <LeafImage 
+          side="left"
+          variant={getImageVariant(leafColor, false)}
+          className={`${leftTranslations} dark:hidden`}
+        />
+        <LeafImage 
+          side="left"
+          variant={getImageVariant(leafColor, true)}
+          className={`${leftTranslations} hidden dark:block`}
+        />
       </div>
       
       {/* Right side leaf - covers entire screen */}
       <div className="absolute right-0 top-0 z-0 pointer-events-none overflow-hidden">
-        {selectedRole !== 'All Projects' && (
-          <>
-            <LeafImage 
-              side="right"
-              variant={`${leafColor}-dark`}
-              className={`${rightTranslations} dark:hidden`}
-            />
-            <LeafImage 
-              side="right"
-              variant={`${leafColor}-light`}
-              className={`${rightTranslations} hidden dark:block`}
-            />
-          </>
-        )}
-        
-        {selectedRole === 'All Projects' && (
-          <>
-            <LeafImage 
-              side="right"
-              variant="black"
-              className={`${rightTranslations} dark:hidden`}
-            />
-            <LeafImage 
-              side="right"
-              variant="white"
-              className={`${rightTranslations} hidden dark:block`}
-            />
-          </>
-        )}
+        <LeafImage 
+          side="right"
+          variant={getImageVariant(leafColor, false)}
+          className={`${rightTranslations} dark:hidden`}
+        />
+        <LeafImage 
+          side="right"
+          variant={getImageVariant(leafColor, true)}
+          className={`${rightTranslations} hidden dark:block`}
+        />
       </div>
     </>
   );

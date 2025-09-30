@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const roles = ["Developer", "Creative", "UX/UI Designer", "All Projects"];
 const roleColors = [
@@ -25,29 +26,53 @@ interface RoleSectionProps {
 export default function RoleSection({ onRoleChange }: RoleSectionProps) {
   const [selectedRole, setSelectedRole] = useState(roles[3]); // "View my" is at index 3
   const [isOpen, setIsOpen] = useState(false);
-  const [visibleItems, setVisibleItems] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
     setIsOpen(false);
-    setVisibleItems(0);
     onRoleChange?.(role);
   };
 
   const handleOpen = () => {
     if (!isOpen) {
       setIsOpen(true);
-      setVisibleItems(0);
       setIsClosing(false);
-      // Animate items one by one (only for non-selected roles)
+      
+      // Use GSAP to animate items one by one
       const availableRoles = roles.filter(role => role !== selectedRole);
-      availableRoles.forEach((_, index) => {
-        setTimeout(() => {
-          setVisibleItems(prev => prev + 1);
-        }, index * 150);
-      });
+      console.log("Available roles:", availableRoles);
+      console.log("Button refs:", buttonRefs.current);
+      
+      // Wait for DOM to update before animating
+      setTimeout(() => {
+        const tl = gsap.timeline();
+        
+        // Set initial states
+        buttonRefs.current.forEach((button, index) => {
+          if (button && index < availableRoles.length) {
+            console.log(`Setting initial state for button ${index}:`, button);
+            gsap.set(button, { autoAlpha: 0, y: 0, scale: 1 });
+          }
+        });
+        
+        // Animate items sequentially
+        availableRoles.forEach((_, index) => {
+          const button = buttonRefs.current[index];
+          if (button) {
+            console.log(`Animating button ${index}:`, button);
+            tl.to(button, {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              ease: "ease.in"
+            }, index * 0.05);
+          }
+        });
+      }, 10);
     } else {
       closeDropdown();
     }
@@ -55,11 +80,28 @@ export default function RoleSection({ onRoleChange }: RoleSectionProps) {
 
   const closeDropdown = () => {
     setIsClosing(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setVisibleItems(0);
-      setIsClosing(false);
-    }, 200);
+    
+    // Use GSAP for closing animation
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsOpen(false);
+        setIsClosing(false);
+      }
+    });
+    
+    const availableRoles = roles.filter(role => role !== selectedRole);
+    availableRoles.forEach((_, index) => {
+      const button = buttonRefs.current[index];
+      if (button) {
+        tl.to(button, {
+          autoAlpha: 0,
+          y: -10,
+          scale: 0.9,
+          duration: 0.2,
+          ease: "power2.in"
+        }, index * 0.05);
+      }
+    });
   };
 
   useEffect(() => {
@@ -100,16 +142,16 @@ export default function RoleSection({ onRoleChange }: RoleSectionProps) {
         <p className="text-xl md:text-2xl font-medium italic tracking-relaxed ml-0">• &nbsp;Portfolio</p>
       </div>
       {isOpen && (
-        <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 md:mt-6 flex gap-1 md:gap-4 z-10 transition-opacity duration-200 ${isClosing ? 'opacity-0' : 'opacity-100'}`}>
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 md:mt-6 flex gap-1 md:gap-4 z-10">
           {roles
             .filter(role => role !== selectedRole)
             .map((role, index) => (
               <button
                 key={role}
+                ref={(el) => { buttonRefs.current[index] = el; }}
                 onClick={() => handleRoleSelect(role)}
-                className={`text-sm md:text-xl font-light italic tracking-tight px-2 md:px-6 py-1 rounded-2xl transition-all duration-300 ease-out transform hover:scale-105 text-white whitespace-nowrap ${roleColors[roles.indexOf(role)]} ${
-                  index < visibleItems ? 'animate-slideDown' : 'opacity-0'
-                }`}
+                className={`text-sm md:text-xl font-light italic tracking-tight px-2 md:px-6 py-1 rounded-2xl text-white whitespace-nowrap ${roleColors[roles.indexOf(role)]} hover:scale-105 transition-transform duration-200`}
+                style={{ visibility: 'hidden' }}
               >
                 {role}
               </button>

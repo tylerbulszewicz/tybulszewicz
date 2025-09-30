@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import RoleSection from "./components/RoleSection";
 import ProjectGrid from "./components/ProjectGrid";
 import LeafDecorations from "./components/LeafDecorations";
@@ -22,7 +23,12 @@ const projects = [
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState<string>("All Projects");
   const [showAllProjects, setShowAllProjects] = useState<boolean>(true);
-  const [visibleElements, setVisibleElements] = useState<Set<string>>(new Set());
+  
+  // Refs for GSAP animations
+  const leavesRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const roleRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLElement>(null);
 
   const handleRoleChange = (role: string) => {
     setSelectedTag(role); // Always update selectedTag to trigger reset
@@ -33,34 +39,107 @@ export default function Home() {
     }
   };
 
-  // Sequential fade-in animation
+  // GSAP sequential fade-in animation
   useEffect(() => {
-    const elements = ['leaves', 'name', 'role', 'projects'];
-    elements.forEach((element, index) => {
-      setTimeout(() => {
-        setVisibleElements(prev => new Set([...prev, element]));
-      }, index * 300); // 300ms delay between each element
-    });
+    console.log("GSAP useEffect running");
+    // Wait for DOM to be ready
+    const timer = setTimeout(() => {
+      console.log("Setting up GSAP animation");
+      // Set initial states for all elements - start invisible with autoAlpha
+      // Don't set leaves initial state - let CSS handle it
+      if (leavesRef.current) {
+        console.log("Leaves will use CSS animation after GSAP timeline");
+      } else {
+        console.log("leavesRef.current is null during setup");
+      }
+      if (nameRef.current) {
+        gsap.set(nameRef.current, { autoAlpha: 0, y: 30, scale: 1 });
+      }
+      if (roleRef.current) {
+        gsap.set(roleRef.current, { autoAlpha: 0, y: 30, scale: 1 });
+      }
+      if (projectsRef.current) {
+        gsap.set(projectsRef.current, { autoAlpha: 0, y: 30, scale: 1 });
+      }
+
+      // Create timeline with proper sequencing
+      const tl = gsap.timeline({ delay: 0.3 });
+      
+      // Don't animate leaves with GSAP - they'll use CSS animation
+      console.log("Skipping GSAP animation for leaves - using CSS instead");
+      
+      // Then name with slight delay
+      if (nameRef.current) {
+        tl.to(nameRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.8");
+      }
+      
+      // Then role section
+      if (roleRef.current) {
+        tl.to(roleRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.6");
+      }
+      
+      // Finally projects section
+      if (projectsRef.current) {
+        tl.to(projectsRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.6");
+      }
+      
+      // After GSAP timeline completes, trigger CSS animation for leaves
+      if (leavesRef.current) {
+        const totalGSAPDuration = 0.5; // delay + name + role + projects durations
+        setTimeout(() => {
+          console.log("Triggering CSS fade-in for leaves");
+          if (leavesRef.current) {
+            leavesRef.current.style.opacity = '1';
+            leavesRef.current.style.transition = 'opacity 0.9s ease-out';
+          }
+        }, totalGSAPDuration * 1000); // Convert to milliseconds
+      }
+      
+    }, 200); // Longer delay to ensure DOM is ready
+    
+    return () => clearTimeout(timer);
   }, []);
   
   return (
-    <div className="w-full overflow-x-hidden">
-      <div className={`overflow-x-hidden transition-opacity duration-1000 ${visibleElements.has('leaves') ? 'opacity-100' : 'opacity-0'}`}>
-        <LeafDecorations key={selectedTag} selectedRole={selectedTag} />
+    <div className="w-full overflow-x-hidden min-h-screen" style={{ backgroundColor: 'var(--bg-color)' }}>
+      <div ref={leavesRef} className="overflow-x-hidden" style={{ opacity: 0 }}>
+        <LeafDecorations selectedRole={selectedTag} />
       </div>
       
       {/* First section - name and role */}
-      <section className="h-screen flex flex-col justify-center items-center md:items-center pb-48 md:justify-center md:pt-0 md:pb-0  w-full max-w-2xl mx-auto relative z-10">
-        <h1 className={`text-4xl md:text-6xl lg:text-6xl font-bold text-center mb-[-8px] transition-all duration-1000 ${visibleElements.has('name') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ fontFamily: 'Sentient, system-ui, sans-serif', fontVariationSettings: '"wght" 500' }}>
+      <section className="h-[120vh] flex flex-col justify-start items-center md:items-center pt-70 md:pt-90 pb-48 md:justify-start w-full max-w-2xl mx-auto relative z-10">
+        <h1 
+          ref={nameRef}
+          className="text-4xl md:text-6xl lg:text-6xl font-bold text-center mb-[-8px]"
+          style={{ fontFamily: 'Sentient, system-ui, sans-serif', fontVariationSettings: '"wght" 500', visibility: 'hidden' }}
+        >
           tyler bulszewicz
         </h1>
-        <div className={`transition-all duration-1000 delay-200 ${visibleElements.has('role') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div ref={roleRef} style={{ visibility: 'hidden' }}>
           <RoleSection onRoleChange={handleRoleChange} />
         </div>
       </section>
 
       {/* Projects section - positioned after first section */}
-      <section className={`px-1 md:px-32 relative z-50 w-full min-h-screen transition-all duration-1000 ${visibleElements.has('projects') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <section ref={projectsRef} className="px-1 md:px-32 relative z-50 w-full min-h-screen mt-16" style={{ visibility: 'hidden' }}>
         <ProjectGrid 
           projects={projects} 
           selectedTag={selectedTag} 

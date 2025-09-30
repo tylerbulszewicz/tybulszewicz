@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 interface AnimatedProjectCardProps {
   title: string;
@@ -12,19 +13,23 @@ interface AnimatedProjectCardProps {
 }
 
 export default function AnimatedProjectCard({ title, image, tags, type, overlayColor, selectedTag }: AnimatedProjectCardProps) {
-  const [overlayOpacity, setOverlayOpacity] = useState(1);
   const [hasBeenRevealed, setHasBeenRevealed] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   // Reset reveal state when selectedTag changes (including "View my")
   useEffect(() => {
-    setOverlayOpacity(1);
     setHasBeenRevealed(false);
+    if (overlayRef.current) {
+      gsap.set(overlayRef.current, { opacity: 1 });
+    }
   }, [selectedTag]);
 
   useEffect(() => {
+    if (!cardRef.current || !overlayRef.current) return;
+
     const handleScroll = () => {
-      if (cardRef.current && !hasBeenRevealed) {
+      if (cardRef.current && !hasBeenRevealed && overlayRef.current) {
         const rect = cardRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
@@ -37,7 +42,13 @@ export default function AnimatedProjectCard({ title, image, tags, type, overlayC
 
           // Fade out based on visibility (0 = fully covered, 1 = fully revealed)
           const opacity = 1 - visiblePercentage;
-          setOverlayOpacity(opacity);
+          
+          // Use GSAP for smooth opacity animation
+          gsap.to(overlayRef.current, {
+            opacity: opacity,
+            duration: 0.1,
+            ease: "none"
+          });
           
           // Mark as revealed when fully visible
           if (opacity <= 0) {
@@ -72,7 +83,7 @@ export default function AnimatedProjectCard({ title, image, tags, type, overlayC
 
   return (
     <div className="group relative" ref={cardRef}>
-      <div className="aspect-4/3 relative overflow-hidden rounded-4xl">
+      <div className="aspect-9/16 md:aspect-4/3 relative overflow-hidden rounded-4xl border-10 border-[var(--bg-color-darker)] dark:border-white/10">
         <img
           src={image}
           alt={title}
@@ -80,10 +91,10 @@ export default function AnimatedProjectCard({ title, image, tags, type, overlayC
         />
         {/* Color overlay that fades away on scroll - masked to image bounds */}
         <div 
-          className="absolute inset-0 z-10 transition-opacity duration-300 ease-out rounded-4xl"
+          ref={overlayRef}
+          className="absolute inset-0 z-10 rounded-4xl"
           style={{
             backgroundColor: overlayColor,
-            opacity: overlayOpacity,
           }}
         />
       </div>
