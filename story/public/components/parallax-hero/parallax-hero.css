@@ -1,0 +1,41 @@
+/* Simple Parallax Styles */
+
+#hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Move the middle2 image down by 200px */
+.parallax-layer:nth-child(3) {
+    background-size: 150%;
+    top: 100px;
+}
+
+/* Mobile responsive - keep same heights for parallax to work */
+@media only screen and (max-width: 768px) {
+    #hero {
+        height: 100vh;
+    }
+    
+    .parallax-layer {
+        height: 150%;
+        background-size: cover;
+    }
+
+    .parallax-layer:nth-child(3) {
+        background-size: 500%;
+        top: 200px;
+    }
+}

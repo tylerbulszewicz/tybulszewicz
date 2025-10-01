@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax Story</title>
+    <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./components/parallax-hero/parallax-hero.css">
+    <link rel="stylesheet" href="./components/parallax-section/parallax-section.css">
+</head>
+    
+<body>
+    <!-- Simple Parallax Section -->
+    <div id="hero">
+        <div class="parallax-layer" data-depth="0.1" style="background-image: url('./assets/background.webp')"></div>
+        <div class="parallax-layer" data-depth="0.3" style="background-image: url('./assets/bacground-middle.webp')"></div>
+        <div class="parallax-layer" data-depth="0.4" style="background-image: url('./assets/background-middle-2.webp')"></div>
+    </div>
+
+    <div id='content'>
+        <section class='first-section'>
+            <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+                <h1>"I am the good shepherd. The good shepherd lays down his life for the sheep." - John 10:11</h1>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                <div>
+                    <p>The imagery of the Good Shepherd runs deep throughout Scripture, from David's beloved Psalm 23 declaring "The Lord is my shepherd, I shall not want" to Jesus' own words in John 10. This metaphor perfectly captures the tender care and fierce protection that God provides for His people. As Jesus explained, "I know my sheep and my sheep know me— just as the Father knows me and I know the Father—and I lay down my life for the sheep" (John 10:14-15). Unlike a hired hand who runs away when danger approaches, the Good Shepherd stays to protect His flock, even at the cost of His own life. The prophet Isaiah foretold this sacrificial nature of the Good Shepherd, saying "We all, like sheep, have gone astray, each of us has turned to our own way; and the Lord has laid on him the iniquity of us all" (Isaiah 53:6). This prophecy was fulfilled in Christ, who willingly laid down His life to save His sheep from destruction.</p> <p>Throughout the Old Testament, God consistently portrayed Himself as a shepherd to His people, guiding them through wilderness, providing for their needs, and protecting them from enemies. This shepherding role reached its ultimate fulfillment in Jesus Christ, who embodied every aspect of the Good Shepherd in His earthly ministry and sacrificial death.</p> <p>The shepherd metaphor also beautifully illustrates the personal and intimate nature of God's care for His people. Just as a shepherd knows each sheep individually - their quirks, their needs, their tendencies - so too does God know each of us intimately. The prophet Ezekiel expands on this theme, describing how God promises to "search for my sheep and look after them" and "tend them in good pasture" (Ezekiel 34:11-14). This personal care extends beyond mere physical provision to encompass spiritual nurture and guidance, as the Good Shepherd leads His flock beside quiet waters and restores their souls.</p>
+                </div>
+                <div>
+                    <p>Jesus further illustrates His shepherd's heart in the parable of the lost sheep, where He asks, "Suppose one of you has a hundred sheep and loses one of them. Doesn't he leave the ninety-nine in the open country and go after the lost sheep until he finds it?" (Luke 15:4). This demonstrates the incredible value He places on each individual soul, leaving the ninety-nine to seek out the one who has strayed. The apostle Peter later echoes this theme, reminding us that "For you were like sheep going astray, but now you have returned to the Shepherd and Overseer of your souls" (1 Peter 2:25). Through Christ's sacrifice as the Good Shepherd, we who were once lost have been found, brought safely into His fold where He continues to guide, protect, and provide for us with unfailing love and mercy. This beautiful metaphor of the Good Shepherd continues to resonate through the ages, offering comfort and assurance to believers in every generation. Just as a shepherd knows each sheep by name and carefully tends to their individual needs, Christ intimately knows and cares for each of His followers. He leads us to green pastures and still waters, restores our souls, and walks with us through the darkest valleys. Even in times of trouble or uncertainty, we can trust in His faithful guidance and protection, knowing that our Good Shepherd will never abandon His flock.</p>
+                </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Simple Parallax Sections -->
+    <section class="parallax-section">
+        <div class="parallax-bg" style="background-image: url('./assets/image1.svg')"></div>
+    </section>
+
+    <section class="parallax-section">
+        <div class="parallax-bg" style="background-image: url('./assets/image2.svg')"></div>
+    </section>
+
+    <section class="parallax-section">
+        <div class="parallax-bg" style="background-image: url('./assets/image3.svg')"></div>
+    </section>
+
+    <script src="./components/parallax-hero/parallax-hero.js"></script>
+    <script src="./components/parallax-section/parallax-section.js"></script>
+    <script src='./js/libs/gsap.min.js'></script>
+    <script src='./js/libs/ScrollTrigger.min.js'></script>
+    <script src="./script.js"></script>
+</body>
+</html>

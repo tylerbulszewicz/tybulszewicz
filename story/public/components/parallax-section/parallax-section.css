@@ -1,0 +1,24 @@
+/* Section Parallax Effect Styles */
+
+.parallax-section {
+    position: relative;
+    height: 80vh;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    clear: both;
+    border: none;
+    outline: none;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

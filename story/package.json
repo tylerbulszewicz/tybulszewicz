@@ -1,0 +1,16 @@
+{
+	"name": "story",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev --live-reload",
+		"start": "wrangler dev --live-reload",
+		"live": "browser-sync start --server public --files 'public/**/*' --port 3000 --open"
+	},
+	"devDependencies": {
+		"browser-sync": "^3.0.4",
+		"live-server": "^1.2.2",
+		"wrangler": "^4.40.3"
+	}
+}
