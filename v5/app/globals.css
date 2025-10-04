@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Sentient Variable Font */
+@font-face {
+  font-family: 'Sentient-Variable';
+  src: url('../fonts/Sentient-Variable.woff2') format('woff2'),
+       url('../fonts/Sentient-Variable.woff') format('woff');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+:root {
+  --background: #130d0a;
+  --foreground: #FFF4EB;
+  --bronze: #130d0a;
+  --white: #fff;
+  --heroHeight: 800px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Sentient-Variable', serif;
+  padding: 0;
+  margin: 0;
+}
+
+/* Parallax specific styles */
+#hero {
+  height: var(--heroHeight);
+  overflow: hidden;
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.layer {
+  background-position: bottom center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+
+.layer-1 {
+  background-image: url('/layer1.svg');
+  background-position: left bottom;
+  z-index: 1;
+}
+
+.layer-2 {
+  background-image: url('/layer2.svg');
+  opacity: 0.02;
+  z-index: 2;
+}
+
+.layer-3 {
+  background-image: url('/layer3.svg');
+  background-position: right bottom;
+  z-index: 3;
+}
+
+.layer-4 {
+  background-image: url('/layer4.svg');
+  z-index: 4;
+}
+
+/* Mobile responsive */
+@media only screen and (max-width: 768px) {
+  .layer-1 {
+    background-position: 26% bottom;
+  }
+  .layer-3 {
+    background-position: 35% bottom;
+  }
+}
