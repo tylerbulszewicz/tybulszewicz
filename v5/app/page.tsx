@@ -1,3 +1,5 @@
+'use client';
+
 import ParallaxHero from './components/ParallaxHero';
 import ContentSection from './components/ContentSection';
 import Projects from './components/Projects';

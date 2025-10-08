@@ -25,12 +25,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+  /* Prevent scroll catching */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Sentient-Variable', serif;
   padding: 0;
   margin: 0;
+  /* Prevent scroll momentum interruption */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  /* Smooth scroll performance */
+  scroll-behavior: auto;
 }
 
 /* Parallax specific styles */
@@ -40,6 +53,11 @@ body {
   position: relative;
   max-width: 1920px;
   margin: 0 auto;
+  will-change: transform; /* Optimize for animations */
+}
+
+#content {
+  will-change: transform; /* Optimize for animations */
 }
 
 .layer {
@@ -80,10 +98,40 @@ body {
 
 /* Mobile responsive */
 @media only screen and (max-width: 768px) {
-  .layer-1 {
-    background-position: 26% bottom;
+  html {
+    scroll-behavior: auto; /* Disable smooth scroll on mobile for better performance */
+  }
+  
+  /* Prevent scroll jumping between sections */
+  #hero, #content, .projects-container {
+    transform: translateZ(0); /* Force hardware acceleration */
+    backface-visibility: hidden;
+  }
+  
+  /* Prevent scroll catching on all elements */
+  * {
+    overscroll-behavior: none;
+  }
+  
+  /* Optimize scroll performance */
+  .layer, .animated-section, .reveal-line {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  
+  /* GSAP will handle opacity */
+  
+  .layer-4 {
+    background-position: 100% bottom;
+    background-size: 250%;
   }
   .layer-3 {
-    background-position: 35% bottom;
+    background-position: 81% bottom;
+    background-size: 280%;
+  }
+
+  .layer-2   {
+    background-position: 10% bottom;
+    background-size: 400%;
   }
 }

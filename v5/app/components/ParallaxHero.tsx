@@ -48,8 +48,20 @@ const ParallaxHero = () => {
       }
     });
 
+    // Add mobile-specific optimizations
+    const handleResize = () => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
     };
   }, []);
 
@@ -71,7 +83,7 @@ const ParallaxHero = () => {
         />
       ))}
       {/* Text overlays at depth 0 (same as layer 4) */}
-      <div className="absolute inset-0 flex flex-col items-start justify-center w-full px-8 max-w-[1200px] mx-auto z-20 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col items-center justify-start w-full px-4 max-w-[1200px] mx-auto z-20 pointer-events-none mt-20 md:mt-0 md:items-start md:justify-center">
         <RevealTitle 
           className="text-left text-[#121212]"
           style={{ 
@@ -79,8 +91,8 @@ const ParallaxHero = () => {
             letterSpacing: '0.05rem'
           }}
         >
-          <div className="text-6xl md:text-6xl font-bold">Hi there,</div>
-          <div className="text-4xl md:text-4xl font-normal">Welcome in...</div>
+          <div className="text-5xl md:text-6xl font-bold">Hi there,</div>
+          <div className="text-3xl md:text-4xl font-normal">Welcome in...</div>
         </RevealTitle>
       </div>
     </div>
