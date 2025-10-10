@@ -135,3 +135,60 @@ body {
     background-size: 400%;
   }
 }
+
+/* Locomotive Scroll Component Styles */
+.locomotive-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212;
+  width: 100%;
+  color: #fffce1;
+  position: relative;
+  margin-top: -50vh;
+  overflow: hidden;
+}
+
+.locomotive-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.text-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.sliding-text {
+  font-size: 20rem;
+  font-weight: 600;
+  color: #fffce1;
+  white-space: nowrap;
+  transform: translateX(0);
+  will-change: transform;
+  font-family: 'Sentient-Variable', serif;
+}
+
+/* Mobile responsive for locomotive scroll */
+@media only screen and (max-width: 768px) {
+  .locomotive-panel {
+    padding: 1rem;
+  }
+  
+  .text-container {
+    width: 90%;
+    padding: 0.75rem 1rem;
+  }
+  
+  .sliding-text {
+    font-size: 8rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+    max-width: 50ch;
+  }
+}

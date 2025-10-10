@@ -1,4 +1,3 @@
-import AnimatedContentSection from "./AnimatedContentSection";
 import RevealText from "./RevealText";
 
 const ContentSection = () => {
@@ -8,19 +7,19 @@ const ContentSection = () => {
         <section className="first-section p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="col-span-2">
-              <RevealText as="span" delay={0.3}>
-                My name is Tyler Bulszewicz
+              <RevealText as="span" stagger={0.1}>
+                <h3 className="text-3xl md:text-4xl font-bold">My name is Tyler Bulszewicz</h3>
               </RevealText>
-              <RevealText as="span" delay={0.6}>
-                I am currently being creative at OneHope
+              <RevealText as="span" stagger={0.1}>
+                <h3 className="text-1xl md:text-2xl font-regular italic">I am currently being creative at OneHope</h3>
               </RevealText>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 mt-32">
             <div className="col-span-2">
-              <p className="text-[#ede0d5] text-xl leading-[200%] mb-6">
-                <RevealText as="span" delay={0.6}>  
-                  And besides all this, there was a certain lofty bearing about the Pagan, which even his uncouthness could not altogether maim. He looked like a man who had never cringed and never had had a creditor. Whether it was, too, that his head being shaved, his forehead was drawn out in freer and brighter relief, and looked more expansive than it otherwise would, this I will not venture to decide; but certain it was his head was phrenologically an excellent one.
+              <p className="text-[#FFF4EB] text-xl leading-[200%] mb-6">
+                <RevealText as="span" stagger={0.1}>  
+                  With a degree in Software Engineering and a year of specialized experience in UX/UI Design at OneHope, I&apos;ve found my passion at the intersection of technology and human experience. I&apos;m fascinated by how thoughtful design shapes the way we interact with digital spaces. My approach combines technical precision with creative problem-solving, always striving to create interfaces that are both beautiful and purposeful. Through my work, I aim to bridge the gap between complex systems and intuitive user experiences, guided by my faith and commitment to excellence.
                 </RevealText>
               </p>
             </div>
