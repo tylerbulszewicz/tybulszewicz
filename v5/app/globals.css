@@ -146,8 +146,25 @@ body {
   width: 100%;
   color: #fffce1;
   position: relative;
-  margin-top: -50vh;
+  margin-top: -80vh;
   overflow: hidden;
+}
+
+/* Mobile browser UI color control */
+@media only screen and (max-width: 768px) {
+  .locomotive-panel {
+    /* Force dark theme for mobile browsers */
+    background-color: #121212 !important;
+  }
+  
+  /* Ensure status bar stays dark */
+  html {
+    background-color: #121212;
+  }
+  
+  body {
+    background-color: #121212;
+  }
 }
 
 .locomotive-content {

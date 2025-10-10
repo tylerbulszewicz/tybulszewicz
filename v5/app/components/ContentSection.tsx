@@ -2,7 +2,7 @@ import RevealText from "./RevealText";
 
 const ContentSection = () => {
   return (
-    <div id="content" className="bg-[#121212] relative z-50 pt-32" style={{ minHeight: '100vh' }}>
+    <div id="content" className="bg-[#121212] relative z-50 pt-8 md:pt-32" style={{ minHeight: '100vh' }}>
       <div className="max-w-[1200px] mx-auto">
         <section className="first-section p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -11,11 +11,11 @@ const ContentSection = () => {
                 <h3 className="text-3xl md:text-4xl font-bold">My name is Tyler Bulszewicz</h3>
               </RevealText>
               <RevealText as="span" stagger={0.1}>
-                <h3 className="text-1xl md:text-2xl font-regular italic">I am currently being creative at OneHope</h3>
+                <h3 className="text-1xl md:text-2xl font-regular italic mt-2 opacity-65">Currently at OneHope</h3>
               </RevealText>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 mt-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 mt-16 md:mt-32">
             <div className="col-span-2">
               <p className="text-[#FFF4EB] text-xl leading-[200%] mb-6">
                 <RevealText as="span" stagger={0.1}>  

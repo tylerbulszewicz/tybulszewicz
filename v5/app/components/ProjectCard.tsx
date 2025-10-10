@@ -31,21 +31,22 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
       className={`w-full overflow-hidden shadow-lg ${className}`}
       style={cardStyle}
     >
-      {/* Mobile Layout - Stacked */}
-      <div className="block md:hidden">
-        {/* Image Section */}
-        <div className="relative h-[300px] w-full">
+      {/* Mobile Layout - Full Viewport */}
+      <div className="block md:hidden h-[100dvh] flex flex-col">
+        {/* Image Section - Natural Aspect Ratio */}
+        <div className="relative w-full">
           <Image
             src={project.image}
             alt={project.title}
-            fill
-            className="object-cover"
+            width={0}
+            height={0}
+            className="w-full h-auto"
             sizes="100vw"
           />
         </div>
 
-        {/* Content Section */}
-        <div className="p-6">
+        {/* Content Section - Fills Remaining Height */}
+        <div className="flex-1 p-6 bg-inherit flex flex-col justify-start">
           <div className="space-y-3">
             {/* Header */}
             <h2 

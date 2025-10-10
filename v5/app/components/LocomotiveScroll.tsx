@@ -16,7 +16,7 @@ interface LocomotiveScrollProps {
 export default function LocomotiveScroll({ 
   text, 
   className = '', 
-  scrollHeight = '100vh' 
+  scrollHeight = '120svh' 
 }: LocomotiveScrollProps) {
   const panelRef = useRef<HTMLElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
@@ -69,8 +69,8 @@ export default function LocomotiveScroll({
   return (
     <section 
       ref={panelRef}
-      className={`locomotive-panel ${className}`}
-      style={{ height: scrollHeight }}
+      className={`locomotive-panel ${className} bg-[#121212]`}
+      style={{ height: scrollHeight, backgroundColor: '#121212' }}
     >
       <div className="locomotive-content">
         <div 
