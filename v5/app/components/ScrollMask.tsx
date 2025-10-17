@@ -12,7 +12,7 @@ export default function ScrollMask({ children, className = '' }: ScrollMaskProps
         {children}
       </div>
       {/* Invisible overlay that captures scroll events */}
-      <div className="fixed inset-0 pointer-events-auto z-50 bg-transparent" />
+      <div className="fixed inset-0 pointer-events-none z-50 bg-transparent" />
     </div>
   );
 }

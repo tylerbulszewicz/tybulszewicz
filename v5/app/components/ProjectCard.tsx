@@ -28,7 +28,7 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
 
   return (
     <div 
-      className={`w-full overflow-hidden shadow-lg ${className}`}
+      className={`w-full overflow-hidden shadow-lg hover:rounded-4xl hover:scale-[0.99] hover:opacity-90 transition-all duration-200 ease-in-out cursor-pointer ${className}`}
       style={cardStyle}
     >
       {/* Mobile Layout - Full Viewport */}
@@ -66,20 +66,11 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
             
             {/* Description */}
             <p 
-              className="text-base leading-relaxed"
-              style={{ fontFamily: 'Sentient-Variable' }}
+              className="text-base leading-relaxed font-inter-tight"
             >
               {project.content}
             </p>
             
-            {/* Call to Action */}
-            <a 
-              href="#" 
-              className="inline-block text-base font-medium underline hover:no-underline transition-all duration-200"
-              style={{ fontFamily: 'Sentient-Variable' }}
-            >
-              Learn more
-            </a>
           </div>
         </div>
       </div>
@@ -102,7 +93,7 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
           <div className="space-y-4">
             {/* Header */}
             <h2 
-              className="text-3xl md:text-4xl font-bold leading-tight"
+              className="mb-0 text-3xl md:text-4xl font-bold leading-tight"
               style={{ fontFamily: 'Sentient-Variable' }}
             >
               {project.title}
@@ -118,20 +109,11 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
             
             {/* Description */}
             <p 
-              className="text-base md:text-lg leading-relaxed"
-              style={{ fontFamily: 'Sentient-Variable' }}
+              className="text-base md:text-lg leading-relaxed font-inter-tight"
             >
               {project.content}
             </p>
             
-            {/* Call to Action */}
-            <a 
-              href="#" 
-              className="inline-block text-base font-medium underline hover:no-underline transition-all duration-200"
-              style={{ fontFamily: 'Sentient-Variable' }}
-            >
-              Learn more
-            </a>
           </div>
         </div>
       </div>

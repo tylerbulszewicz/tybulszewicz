@@ -92,7 +92,7 @@ const ParallaxHero = () => {
           }}
         >
           <div className="text-5xl md:text-6xl font-bold">Hi there,</div>
-          <div className="text-3xl md:text-4xl font-normal">Welcome in...</div>
+          <div className="text-3xl md:text-4xl italic">Welcome in...</div>
         </RevealTitle>
       </div>
     </div>
