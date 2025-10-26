@@ -1,9 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Project {
   id: string;
+  slug: string;
   title: string;
   description: string;
   image: string;
@@ -27,10 +29,11 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
   };
 
   return (
-    <div 
-      className={`w-full overflow-hidden shadow-lg hover:rounded-4xl hover:scale-[0.99] hover:opacity-90 transition-all duration-200 ease-in-out cursor-pointer ${className}`}
-      style={cardStyle}
-    >
+    <Link href={`/projects/${project.slug}`} className="block">
+      <div 
+        className={`w-full overflow-hidden shadow-lg hover:rounded-4xl hover:scale-[0.99] hover:opacity-90 transition-all duration-200 ease-in-out cursor-pointer ${className}`}
+        style={cardStyle}
+      >
       {/* Mobile Layout - Full Viewport */}
       <div className="block md:hidden h-[100dvh] flex flex-col">
         {/* Image Section - Natural Aspect Ratio */}
@@ -117,7 +120,8 @@ const ProjectCard = ({ project, layout, className = '' }: ProjectCardProps) => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </Link>
   );
 };
 

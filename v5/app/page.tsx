@@ -6,16 +6,18 @@ import ProjectGallery from './components/ProjectGallery';
 import LocomotiveScroll from './components/LocomotiveScroll';
 import ScrollMask from './components/ScrollMask';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
 export default function Home() {
   return (
     <main className="bg-[#121212] text-white font-serif relative">
+      <Navbar />
       <ScrollMask>
         <ParallaxHero />
         <ContentSection />
         <LocomotiveScroll text="The Work In Question..." direction="left" />
       </ScrollMask>
-      <div className="relative z-20">
+      <div id="projects" className="relative z-20">
         <ProjectGallery />
       </div>
       <LocomotiveScroll text="So what do you think?" direction="left" />

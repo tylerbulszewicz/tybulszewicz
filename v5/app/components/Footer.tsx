@@ -4,21 +4,21 @@ import RevealText from "./RevealText";
 
 const Footer = () => {
   return (
-    <footer className="bg-[--foreground] min-h-screen flex items-center px-4 relative overflow-hidden">
+    <footer id="contact" className="bg-[--foreground] min-h-screen flex items-center px-4 relative overflow-hidden">
       <div className="max-w-[1200px] mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left Column - Text Content */}
           <div className="space-y-8">
             <RevealText as="div" stagger={0.1}>
               <h3 className="font-sentient-variable text-3xl md:text-4xl font-bold font-bold text-[#FFF4EB] mb-8 italic">
-                the basics...
+                Let's Talk...
               </h3>
             </RevealText>
             
             <div className="space-y-8">
               <RevealText as="div" stagger={0.1}>
                 <p className="text-[#FFF4EB] text-lg lg:text-xl leading-relaxed font-inter-tight">
-                  Feel free to reach out to my email for any inquires. I'm looking forward to making your wildest dreams come true...
+                  Feel free to reach out to my email for any inquires. I&apos;m looking forward to making your wildest dreams come true...
                 </p>
               </RevealText>
               
