@@ -94,12 +94,6 @@ const Navbar = () => {
               </Link>
             )}
             <Link 
-              href="/projects"
-              className={linkClassName}
-            >
-              PROJECTS
-            </Link>
-            <Link 
               href="/#contact"
               className={linkClassName}
             >

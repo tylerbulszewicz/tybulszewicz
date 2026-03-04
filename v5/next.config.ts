@@ -4,8 +4,11 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default nextConfig;
+// Enable OpenNext Cloudflare dev runtime only when explicitly requested.
+if (process.env.OPENNEXT_CLOUDFLARE_DEV === "1") {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { initOpenNextCloudflareForDev } = require("@opennextjs/cloudflare");
+  initOpenNextCloudflareForDev();
+}
 
-// added by create cloudflare to enable calling `getCloudflareContext()` in `next dev`
-import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
-initOpenNextCloudflareForDev();
+export default nextConfig;

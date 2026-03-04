@@ -33,9 +33,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Prevent scroll catching */
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -44,12 +42,7 @@ body {
   font-family: 'Sentient-Variable', serif;
   padding: 0;
   margin: 0;
-  /* Prevent scroll momentum interruption */
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
-  /* Smooth scroll performance */
-  scroll-behavior: auto;
 }
 
 /* Parallax specific styles */
@@ -59,11 +52,6 @@ body {
   position: relative;
   max-width: 1920px;
   margin: 0 auto;
-  will-change: transform; /* Optimize for animations */
-}
-
-#content {
-  will-change: transform; /* Optimize for animations */
 }
 
 .layer {
@@ -107,25 +95,11 @@ body {
   html {
     scroll-behavior: auto; /* Disable smooth scroll on mobile for better performance */
   }
-  
-  /* Prevent scroll jumping between sections */
-  #hero, #content, .projects-container {
-    transform: translateZ(0); /* Force hardware acceleration */
+
+  .layer {
     backface-visibility: hidden;
-  }
-  
-  /* Prevent scroll catching on all elements */
-  * {
-    overscroll-behavior: none;
-  }
-  
-  /* Optimize scroll performance */
-  .layer, .animated-section, .reveal-line {
-    will-change: transform;
     transform: translateZ(0);
   }
-  
-  /* GSAP will handle opacity */
   
   .layer-4 {
     background-position: 100% bottom;
@@ -185,9 +159,9 @@ body {
 }
 
 .sliding-text {
-  font-size: 20rem;
+  font-size: 14rem;
   font-weight: 600;
-  color: #fffce1;
+  color: #181818;
   white-space: nowrap;
   transform: translateX(0);
   will-change: transform;
@@ -206,7 +180,7 @@ body {
   }
   
   .sliding-text {
-    font-size: 8rem;
+    font-size: 5.5rem;
   }
   
   .description {

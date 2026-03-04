@@ -24,41 +24,48 @@ const ParallaxHero = () => {
     if (!heroRef.current || layersRef.current.length === 0) return;
 
     const hero = heroRef.current;
-    
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (isMobile || prefersReducedMotion) {
+      layersRef.current.forEach((layer) => {
+        if (layer) {
+          layer.style.transform = 'translate3d(0, 0, 0)';
+        }
+      });
+      return;
+    }
+
+    let heroTop = 0;
+    let heroHeight = 1;
+    let lastProgress = -1;
+
+    const recalculateBounds = () => {
+      heroTop = hero.offsetTop;
+      heroHeight = Math.max(hero.offsetHeight, 1);
+    };
+
     const updateParallax = () => {
-      if (!hero) return;
+      const rawProgress = (window.scrollY - heroTop) / heroHeight;
+      const scrollProgress = Math.min(Math.max(rawProgress, 0), 1);
 
-      const heroHeight = hero.offsetHeight;
-      const heroRect = hero.getBoundingClientRect();
-      const heroTopFromViewport = heroRect.top;
-
-      // Calculate scroll progress (0 to 1) as hero scrolls through viewport
-      // When hero top is at viewport top: progress = 0
-      // When hero bottom is at viewport top (top = -height): progress = 1
-      let scrollProgress = 0;
-      
-      if (heroTopFromViewport <= 0 && heroTopFromViewport >= -heroHeight) {
-        // Hero is scrolling through viewport
-        scrollProgress = Math.abs(heroTopFromViewport) / heroHeight;
-      } else if (heroTopFromViewport < -heroHeight) {
-        // Hero has scrolled past (bottom has passed viewport top)
-        scrollProgress = 1;
+      if (Math.abs(scrollProgress - lastProgress) < 0.001) {
+        return;
       }
+      lastProgress = scrollProgress;
 
-      // Apply parallax to each layer
       layersRef.current.forEach((layer) => {
         if (layer) {
           const depth = parseFloat(layer.dataset.depth || '0');
-          // Calculate movement based on scroll progress and depth
           const movement = scrollProgress * heroHeight * depth;
-          layer.style.transform = `translateY(${movement}px)`;
+          layer.style.transform = `translate3d(0, ${movement.toFixed(2)}px, 0)`;
         }
       });
     };
 
     // Throttled scroll handler using requestAnimationFrame
     let ticking = false;
-    const handleScroll = () => {
+    const queueUpdate = () => {
       if (!ticking) {
         rafIdRef.current = requestAnimationFrame(() => {
           updateParallax();
@@ -68,27 +75,21 @@ const ParallaxHero = () => {
       }
     };
 
-    // Initial update
-    updateParallax();
-
-    // Add scroll listener (passive for better mobile performance)
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Mobile-specific optimizations
     const handleResize = () => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
-      rafIdRef.current = requestAnimationFrame(() => {
-        updateParallax();
-      });
+      recalculateBounds();
+      queueUpdate();
     };
 
+    recalculateBounds();
+    queueUpdate();
+
+    // Add scroll listener (passive for better mobile performance)
+    window.addEventListener('scroll', queueUpdate, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleResize, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', queueUpdate);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleResize);
       if (rafIdRef.current) {
@@ -122,8 +123,7 @@ const ParallaxHero = () => {
             letterSpacing: '0.05rem'
           }}
         >
-          <div className="text-5xl md:text-6xl font-bold">Hi there,</div>
-          <div className="text-3xl md:text-4xl italic">Welcome in...</div>
+          <div className="text-7xl md:text-8xl font-bold">Hi</div>
         </RevealTitle>
       </div>
     </div>

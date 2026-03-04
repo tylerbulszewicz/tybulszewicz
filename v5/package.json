@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
+		"dev:cf": "OPENNEXT_CLOUDFLARE_DEV=1 next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",

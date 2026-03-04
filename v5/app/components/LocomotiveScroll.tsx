@@ -11,15 +11,18 @@ interface LocomotiveScrollProps {
   text: string;
   className?: string;
   scrollHeight?: string;
+  scrollEnd?: string;
   direction?: 'left' | 'right';
 }
 
 export default function LocomotiveScroll({ 
   text, 
   className = '', 
-  scrollHeight = '100vh',
+  scrollHeight = '50vh',
+  scrollEnd = 'bottom top',
   direction = 'right'
 }: LocomotiveScrollProps) {
+  // Keeping this component for later use on the home page.
   const panelRef = useRef<HTMLElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -46,13 +49,10 @@ export default function LocomotiveScroll({
     // Set up the scroll trigger
     const scrollTrigger = ScrollTrigger.create({
       trigger: panel,
-      start: "top top", // Start when the top of this element hits the top of the viewport
-      end: "bottom top", // End when the bottom of this element hits the top of the viewport
+      start: "top bottom", // Start when the section enters the viewport
+      end: scrollEnd, // Controls how long the horizontal animation lasts
       scrub: true,
-      pin: true,
-      pinSpacing: true, // This creates proper spacing to prevent overlap
       //markers: true,
-      anticipatePin: 1, // Helps prevent layout shifts
       invalidateOnRefresh: true, // Recalculates on refresh
       onUpdate: (self) => {
         // Calculate the scroll progress (0 to 1)
@@ -87,7 +87,7 @@ export default function LocomotiveScroll({
     return () => {
       scrollTrigger.kill();
     };
-  }, [text, direction]);
+  }, [text, direction, scrollEnd]);
 
   // Refresh ScrollTrigger when component mounts to ensure proper calculations
   useEffect(() => {

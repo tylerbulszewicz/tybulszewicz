@@ -32,14 +32,37 @@ const RevealText = ({
 
     const element = elementRef.current;
     let splitInstance: SplitText | null = null;
+    let animation: gsap.core.Tween | null = null;
     let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
     let unmounted = false;
 
     const initAnimation = () => {
       if (unmounted) return;
 
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       // Set element to be visible initially (like in the example)
       gsap.set(element, { opacity: 1 });
+
+      if (isMobile || prefersReducedMotion) {
+        animation = gsap.fromTo(
+          element,
+          { autoAlpha: 0, y: 18 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top 90%',
+              once: true,
+            },
+          }
+        );
+        return;
+      }
 
       // Create SplitText animation
       splitInstance = SplitText.create(element, {
@@ -78,6 +101,7 @@ const RevealText = ({
       if (fallbackTimer) {
         clearTimeout(fallbackTimer);
       }
+      animation?.kill();
       splitInstance?.revert();
 
       // Clean up ScrollTrigger for this element
@@ -94,7 +118,7 @@ const RevealText = ({
   return (
     <Element 
       ref={elementRef}
-      className={`will-change-transform ${className}`}
+      className={className}
       style={style}
     >
       {children}
