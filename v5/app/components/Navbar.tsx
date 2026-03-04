@@ -1,76 +1,111 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const linkClassName = "font-inter-tight font-light text-lg text-white hover:opacity-50 transition-opacity duration-200";
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Show navbar when scrolling up or at the top
-      if (currentScrollY < lastScrollY || currentScrollY < 10) {
-        setIsVisible(true);
-      } 
-      // Hide navbar when scrolling down
-      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
+    const nav = navRef.current;
+    if (!nav) return;
+
+    // Set blend mode only on desktop
+    const updateBlendMode = () => {
+      if (window.innerWidth >= 768) {
+        nav.style.mixBlendMode = 'exclusion';
+      } else {
+        nav.style.mixBlendMode = 'normal';
       }
-      
-      setLastScrollY(currentScrollY);
+    };
+
+    updateBlendMode();
+    window.addEventListener('resize', updateBlendMode);
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          const isMobile = window.innerWidth < 768;
+          
+          // Always show navbar at the very top/bottom
+          if (currentScrollY < 10) {
+            nav.style.opacity = '1';
+            nav.style.transform = 'translateY(0)';
+          } else if (currentScrollY > lastScrollY) {
+            // Scrolling down
+            if (isMobile) {
+              // Mobile: fade out and translate down (since nav is at bottom)
+              nav.style.opacity = '0';
+              nav.style.transform = 'translateY(20px)';
+            } else {
+              // Desktop: fade out and translate up (since nav is at top)
+              nav.style.opacity = '0';
+              nav.style.transform = 'translateY(-20px)';
+            }
+          } else if (currentScrollY < lastScrollY) {
+            // Scrolling up - fade in
+            nav.style.opacity = '1';
+            nav.style.transform = 'translateY(0)';
+          }
+          
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateBlendMode);
+    };
+  }, []);
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-[9999] transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      ref={navRef}
+      className="fixed bottom-0 md:top-0 left-0 right-0 transition-all duration-300 ease-in-out pointer-events-none"
       style={{
-        mixBlendMode: 'exclusion'
+        opacity: '1',
+        transform: 'translateY(0)',
+        zIndex: 99999
       }}
     >
-      <div className="px-8 py-6">
+      <div className="px-8 py-4 md:py-6 pointer-events-auto">
         <div className="flex items-center justify-center md:justify-end space-x-6">
-          {!isHomePage && (
+          {/* Pill container with buttons inside */}
+          <div className="flex items-center bg-[#121212] border-2 border-[#ffffff20] rounded-full px-6 py-1 space-x-6 md:bg-transparent md:rounded-none md:px-0 md:py-0 md:border-0">
+            {!isHomePage && (
+              <Link 
+                href="/"
+                className={linkClassName}
+              >
+                HOME
+              </Link>
+            )}
             <Link 
-              href="/"
-              className="font-inter-tight font-light text-lg hover:opacity-50 transition-opacity duration-200"
-              style={{ 
-                color: 'white'
-              }}
+              href="/projects"
+              className={linkClassName}
             >
-              HOME
+              PROJECTS
             </Link>
-          )}
-          <Link 
-            href="/#projects"
-            className="font-inter-tight font-light text-lg hover:opacity-50 transition-opacity duration-200"
-            style={{ 
-              color: 'white'
-            }}
-          >
-            PROJECTS
-          </Link>
-          <Link 
-            href="/#contact"
-            className="font-inter-tight font-light text-lg hover:opacity-50 transition-opacity duration-200"
-            style={{ 
-              color: 'white'
-            }}
-          >
-            CONTACT
-          </Link>
+            <Link 
+              href="/#contact"
+              className={linkClassName}
+            >
+              CONTACT
+            </Link>
+          </div>
         </div>
       </div>
     </nav>

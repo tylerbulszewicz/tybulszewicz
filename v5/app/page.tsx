@@ -1,5 +1,3 @@
-'use client';
-
 import ParallaxHero from './components/ParallaxHero';
 import ContentSection from './components/ContentSection';
 import ProjectGallery from './components/ProjectGallery';

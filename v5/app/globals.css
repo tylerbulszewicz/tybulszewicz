@@ -15,7 +15,7 @@
   --foreground: #FFF4EB;
   --bronze: #130d0a;
   --white: #fff;
-  --heroHeight: 800px;
+  --heroHeight: 100vh;
 }
 
 @theme inline {

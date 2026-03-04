@@ -31,19 +31,23 @@ const RevealText = ({
     if (!elementRef.current) return;
 
     const element = elementRef.current;
+    let splitInstance: SplitText | null = null;
+    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+    let unmounted = false;
 
     const initAnimation = () => {
+      if (unmounted) return;
+
       // Set element to be visible initially (like in the example)
       gsap.set(element, { opacity: 1 });
 
       // Create SplitText animation
-      SplitText.create(element, {
+      splitInstance = SplitText.create(element, {
         type: "words,lines",
         mask: "lines",
         linesClass: "reveal-line",
         autoSplit: true,
         onSplit: (instance) => {
-          console.log('SplitText created for:', element.textContent);
           return gsap.from(instance.lines, {
             yPercent: 120,
             stagger: stagger,
@@ -60,14 +64,22 @@ const RevealText = ({
 
     // Wait for fonts to load before animating
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(initAnimation);
+      document.fonts.ready.then(() => {
+        initAnimation();
+      });
     } else {
       // Fallback for browsers without font loading API
-      setTimeout(initAnimation, 100);
+      fallbackTimer = setTimeout(initAnimation, 100);
     }
 
 
     return () => {
+      unmounted = true;
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+      }
+      splitInstance?.revert();
+
       // Clean up ScrollTrigger for this element
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.vars && trigger.vars.trigger === element) {

@@ -6,8 +6,8 @@ export default function ProjectsPage() {
   return (
     <main className="bg-[#121212] text-white font-serif relative">
       <Navbar />
-      <div className="pt-20">
-        <ProjectGallery />
+      <div className="md:pt-20">
+        <ProjectGallery variant="grid" />
       </div>
       <Footer />
     </main>

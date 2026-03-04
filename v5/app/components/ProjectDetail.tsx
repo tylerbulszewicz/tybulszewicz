@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import RevealText from './RevealText';
 
 interface ProjectDetailProps {
@@ -16,8 +17,6 @@ interface ProjectDetailProps {
   }[];
   backgroundColor?: string;
   textColor?: string;
-  headerImageHeight?: 'full' | 'half' | 'custom';
-  customHeaderHeight?: string;
 }
 
 const ProjectDetail = ({
@@ -28,26 +27,80 @@ const ProjectDetail = ({
   description,
   projectImages,
   backgroundColor = '#121212',
-  textColor = '#FFF4EB',
-  headerImageHeight = 'full',
-  customHeaderHeight
+  textColor = '#FFF4EB'
 }: ProjectDetailProps) => {
-  const getHeaderHeight = () => {
-    if (customHeaderHeight) return customHeaderHeight;
-    switch (headerImageHeight) {
-      case 'half': return '50vh';
-      case 'full': return '100vh';
-      default: return '100vh';
-    }
-  };
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [indicatorOpacity, setIndicatorOpacity] = useState(0);
+
+  useEffect(() => {
+    let hasHiddenIndicator = false;
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // Show scroll indicator after 1 second
+    const timer = setTimeout(() => {
+      setShowScrollIndicator(true);
+      // Use requestAnimationFrame to ensure opacity transition triggers
+      requestAnimationFrame(() => {
+        setIndicatorOpacity(1);
+      });
+    }, 1000);
+
+    // Hide scroll indicator when user scrolls down
+    const handleScroll = () => {
+      if (!hasHiddenIndicator && window.scrollY > 50) {
+        hasHiddenIndicator = true;
+        setIndicatorOpacity(0);
+        // Remove from DOM after fade out completes
+        hideTimer = setTimeout(() => {
+          setShowScrollIndicator(false);
+        }, 500); // Match transition duration
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+      }
+    };
+  }, []);
 
   const containerStyle = {
     backgroundColor,
     color: textColor
   };
 
+  const imagesToRender = projectImages.slice(1);
+
   return (
-    <main className="w-full bg-[#121212]" style={containerStyle}>
+    <main className="w-full bg-[#121212] relative" style={containerStyle}>
+      {/* Scroll Down Indicator */}
+      {showScrollIndicator && (
+        <div 
+          className="fixed left-1/2 transform -translate-x-1/2 z-50 pointer-events-none transition-opacity duration-500"
+          style={{ top: '90vh', opacity: indicatorOpacity }}
+        >
+          <div className="flex flex-col items-center space-y-2">
+            <svg 
+              className="w-6 h-6 text-white/50 animate-bounce" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={3} 
+                d="M22 13l-10 10m0 0-10-10" 
+              />
+            </svg>
+          </div>
+        </div>
+      )}
+
       {/* Header Image Section */}
       <section 
         className="relative w-full overflow-hidden h-[85vh]"
@@ -99,16 +152,17 @@ const ProjectDetail = ({
       </section>
 
       {/* Project Images Grid Section */}
-      {projectImages.length > 0 && (
+      {imagesToRender.length > 0 && (
         <section className="w-full bg-[#121212] min-h-screen">
-          <div className="grid grid-cols-1 md:grid-cols-2 w-full">
-            {projectImages.map((image, index) => (
-              <div key={index} className="relative w-full aspect-[4/3] overflow-hidden bg-gray-800">
+          <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-0 md:gap-0 lg:gap-0">
+            {imagesToRender.map((image, index) => (
+              <div key={index} className="relative w-full overflow-hidden bg-gray-800">
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  fill
-                  className="object-cover"
+                  width={0}
+                  height={0}
+                  className="w-full h-auto object-contain"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority={index < 4}
                 />

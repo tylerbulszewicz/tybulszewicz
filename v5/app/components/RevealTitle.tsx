@@ -32,19 +32,23 @@ const RevealTitle = ({
 
   useEffect(() => {
     if (!textRef.current) return;
+    let splitInstance: SplitText | null = null;
+    let animation: gsap.core.Tween | null = null;
+    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+    let unmounted = false;
 
     const initTextAnimation = () => {
+      if (unmounted || !textRef.current) return;
+
       gsap.set(textRef.current, { opacity: 1 });
 
-      let split: gsap.core.Tween;
-      
-      SplitText.create(textRef.current, {
+      splitInstance = SplitText.create(textRef.current, {
         type: "words,lines",
         linesClass: "line",
         autoSplit: true,
         mask: "lines",
         onSplit: (self) => {
-          split = gsap.from(self.lines, {
+          animation = gsap.from(self.lines, {
             duration,
             yPercent: 100,
             opacity: 0,
@@ -52,18 +56,29 @@ const RevealTitle = ({
             ease,
             delay
           });
-          return split;
+          return animation;
         }
       });
     };
 
     // Wait for fonts to load before animating
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(initTextAnimation);
+      document.fonts.ready.then(() => {
+        initTextAnimation();
+      });
     } else {
       // Fallback for browsers without font loading API
-      setTimeout(initTextAnimation, 100);
+      fallbackTimer = setTimeout(initTextAnimation, 100);
     }
+
+    return () => {
+      unmounted = true;
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+      }
+      animation?.kill();
+      splitInstance?.revert();
+    };
   }, [delay, duration, stagger, ease]);
 
   return (

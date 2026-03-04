@@ -1,6 +1,31 @@
-'use client';
-
 import RevealText from "./RevealText";
+
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/tybulszewicz/",
+    label: "Linkedin",
+    className: "w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-48 lg:pl-8 py-1 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block",
+    external: true,
+  },
+  {
+    href: "https://github.com/tylerbulszewicz",
+    label: "Github",
+    className: "w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-24 lg:pl-8 py-1 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block",
+    external: true,
+  },
+  {
+    href: "https://www.instagram.com/ty.bulszewicz/",
+    label: "Instagram",
+    className: "w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-36 lg:pl-8 py-1 lg:mr-24 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block",
+    external: true,
+  },
+  {
+    href: "mailto:tbulszewicz@gmail.com",
+    label: "Email",
+    className: "w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-12 lg:pl-8 py-1 lg:mr-48 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block",
+    external: false,
+  },
+] as const;
 
 const Footer = () => {
   return (
@@ -10,8 +35,8 @@ const Footer = () => {
           {/* Left Column - Text Content */}
           <div className="space-y-8">
             <RevealText as="div" stagger={0.1}>
-              <h3 className="font-sentient-variable text-3xl md:text-4xl font-bold font-bold text-[#FFF4EB] mb-8 italic">
-                Let's Talk...
+              <h3 className="font-sentient-variable text-3xl md:text-4xl font-bold text-[#FFF4EB] mb-8 italic">
+                Let&apos;s Talk...
               </h3>
             </RevealText>
             
@@ -33,47 +58,18 @@ const Footer = () => {
 
           {/* Right Column - Buttons */}
           <div className="flex flex-col space-y-4 w-full lg:items-end">
-            <RevealText as="div" stagger={0.1}>
-              <a 
-                href="https://www.linkedin.com/in/tybulszewicz/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-48 lg:pl-8 py-1 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block"
-              >
-                Linkedin
-              </a>
-            </RevealText>
-            
-            <RevealText as="div" stagger={0.1}>
-              <a 
-                href="https://github.com/tylerbulszewicz" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-24 lg:pl-8 py-1 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block"
-              >
-                Github
-              </a>
-            </RevealText>
-            
-            <RevealText as="div" stagger={0.1}>
-              <a 
-                href="https://www.instagram.com/ty.bulszewicz/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-36 lg:pl-8 py-1 lg:mr-24 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block"
-              >
-                Instagram
-              </a>
-            </RevealText>
-            
-            <RevealText as="div" stagger={0.1}>
-              <a 
-                href="mailto:tbulszewicz@gmail.com"
-                className="w-full min-w-full lg:w-auto lg:min-w-0 px-8 lg:pr-12 lg:pl-8 py-1 lg:mr-48 border border-[#FFF4EB] rounded-full bg-transparent text-[#FFF4EB] font-inter-tight text-lg hover:bg-[#FFF4EB] hover:text-[#121212] transition-all duration-300 text-left inline-block"
-              >
-                Email
-              </a>
-            </RevealText>
+            {socialLinks.map((link) => (
+              <RevealText as="div" stagger={0.1} key={link.label}>
+                <a
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className={link.className}
+                >
+                  {link.label}
+                </a>
+              </RevealText>
+            ))}
           </div>
         </div>
       </div>

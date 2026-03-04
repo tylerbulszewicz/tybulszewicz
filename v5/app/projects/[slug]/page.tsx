@@ -4,13 +4,13 @@ import Navbar from '../../components/Navbar';
 import { getProjectBySlug } from '../../data/projects';
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const slug = params.slug;
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
   
   const project = getProjectBySlug(slug);
   
@@ -22,7 +22,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             Project Not Found
           </h1>
           <p className="text-lg font-inter-tight">
-            The project you're looking for doesn't exist.
+            The project you&apos;re looking for doesn&apos;t exist.
           </p>
         </div>
       </main>
@@ -41,8 +41,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         projectImages={project.projectImages}
         backgroundColor={project.backgroundColor || '#121212'}
         textColor={project.textColor || '#FFF4EB'}
-        headerImageHeight={project.headerImageHeight}
-        customHeaderHeight={project.customHeaderHeight}
       />
       <Footer />
     </div>
@@ -58,9 +56,10 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each project
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const { getProjectBySlug } = await import('../../data/projects');
-  const project = getProjectBySlug(params.slug);
+  const project = getProjectBySlug(slug);
   
   if (!project) {
     return {

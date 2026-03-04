@@ -17,11 +17,111 @@ export interface Project {
     alt: string;
     caption?: string;
   }[];
-  headerImageHeight?: 'full' | 'half' | 'custom';
-  customHeaderHeight?: string;
 }
 
 export const projectsData: Project[] = [
+  // New projects backed by images placed in public/project-*/ folders
+  // You can change the `image` field to pick a different card cover per project
+  {
+    id: 'project-espriddle',
+    slug: 'project-espriddle',
+    title: 'Espriddle',
+    description: 'Brand/process visuals for Espriddle.',
+    image: '/project-espriddle/page1.webp',
+    content: 'A visual process and brand exploration for Espriddle.',
+    backgroundColor: '#121212',
+    textColor: '#FFF4EB',
+    headerImage: '/project-espriddle/page1.webp',
+    headerImageAlt: 'Espriddle header image',
+    subtitle: 'Process and brand exploration',
+    projectImages: Array.from({ length: 24 }, (_, i) => {
+      const n = i + 1;
+      return {
+        src: `/project-espriddle/page${n}.webp`,
+        alt: `Espriddle page ${n}`
+      };
+    })
+  },
+  {
+    id: 'project-kidfit',
+    slug: 'project-kidfit',
+    title: 'KidFit Rebrand',
+    description: 'Rebrand process book visuals for KidFit.',
+    image: '/project-kidfit/ReBrandProcessBookFinal-1.webp',
+    content: 'A comprehensive rebrand process showcasing KidFit visual identity.',
+    backgroundColor: '#121212',
+    textColor: '#FFF4EB',
+    headerImage: '/project-kidfit/ReBrandProcessBookFinal-1.webp',
+    headerImageAlt: 'KidFit rebrand header image',
+    subtitle: 'Rebrand process book',
+    projectImages: Array.from({ length: 52 }, (_, i) => {
+      const n = i + 1;
+      return {
+        src: `/project-kidfit/ReBrandProcessBookFinal-${n}.webp`,
+        alt: `KidFit Rebrand page ${n}`
+      };
+    })
+  },
+  {
+    id: 'project-lavalips',
+    slug: 'project-lavalips',
+    title: 'Lava Lips',
+    description: 'Behance series: Lava Lips visuals.',
+    image: '/project-lavalips/Lava Lips Behance_05-1.webp',
+    content: 'A poster/visual series exploring the Lava Lips concept.',
+    backgroundColor: '#121212',
+    textColor: '#FFF4EB',
+    headerImage: '/project-lavalips/Lava Lips Behance_05-1.webp',
+    headerImageAlt: 'Lava Lips header image',
+    subtitle: 'Visual series',
+    projectImages: Array.from({ length: 17 }, (_, i) => {
+      const n = i + 1;
+      return {
+        src: `/project-lavalips/Lava Lips Behance_05-${n}.webp`,
+        alt: `Lava Lips image ${n}`
+      };
+    })
+  },
+  {
+    id: 'project-linesoforder',
+    slug: 'project-linesoforder',
+    title: 'Lines of Order',
+    description: 'Museum poster/visuals series.',
+    image: '/project-linesoforder/Bulszewicz_Museum_ARTS371_1.webp',
+    content: 'Lines of Order visual exploration series.',
+    backgroundColor: '#121212',
+    textColor: '#FFF4EB',
+    headerImage: '/project-linesoforder/Bulszewicz_Museum_ARTS371_1.webp',
+    headerImageAlt: 'Lines of Order header image',
+    subtitle: 'Visual exploration',
+    projectImages: Array.from({ length: 10 }, (_, i) => {
+      const n = i + 1;
+      return {
+        src: `/project-linesoforder/Bulszewicz_Museum_ARTS371_${n}.webp`,
+        alt: `Lines of Order image ${n}`
+      };
+    })
+  },
+  {
+    id: 'project-socialgood',
+    slug: 'project-socialgood',
+    title: 'Social Good',
+    description: 'Poster/visuals for social good.',
+    image: '/project-socialgood/Bulszewicz_SocialGood_ARTS371_1.webp',
+    content: 'A series centered on social good messaging.',
+    backgroundColor: '#121212',
+    textColor: '#FFF4EB',
+    headerImage: '/project-socialgood/Bulszewicz_SocialGood_ARTS371_1.webp',
+    headerImageAlt: 'Social Good header image',
+    subtitle: 'Poster series',
+    projectImages: Array.from({ length: 10 }, (_, i) => {
+      const n = i + 1;
+      return {
+        src: `/project-socialgood/Bulszewicz_SocialGood_ARTS371_${n}.webp`,
+        alt: `Social Good image ${n}`
+      };
+    })
+  },
   {
     id: 'livingshorelines',
     slug: 'livingshorelines',
@@ -65,8 +165,7 @@ export const projectsData: Project[] = [
         alt: 'Historical context design',
         caption: 'Historical context design showing shoreline changes over time'
       }
-    ],
-    headerImageHeight: 'full'
+    ]
   },
   {
     id: 'project-1',
@@ -101,8 +200,7 @@ export const projectsData: Project[] = [
         alt: 'Project 1 Detail 4',
         caption: 'Mobile responsive design'
       }
-    ],
-    headerImageHeight: 'full'
+    ]
   },
   {
     id: 'project-2',
@@ -130,8 +228,7 @@ export const projectsData: Project[] = [
         alt: 'Project 2 Detail 3',
         caption: 'Final product showcase'
       }
-    ],
-    headerImageHeight: 'half'
+    ]
   },
   {
     id: 'project-3',
@@ -156,8 +253,7 @@ export const projectsData: Project[] = [
         alt: 'Project 3 Detail 2',
         caption: 'Modern technology application'
       }
-    ],
-    headerImageHeight: 'full'
+    ]
   }
 ];
 
